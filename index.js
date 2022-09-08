@@ -10,8 +10,9 @@ const server = http.createServer((req, res) => {
 
   //現在時刻（ミリ秒）をCookieとして、last_accessというキー名でヘッダにセット
   /* セットされたCookieは、デベロッパーツール内のApplicationタブのCookiesという項目で確認できる */
-  res.setHeader('Set-Cookie', 'last_access=' + now + ';');
-
+  /* expiresで有効期限を設定しているが、ブラウザによってCookieの最長保存期限が決まっている？（もしくはCookieの機能が廃止される？）模様 */
+  res.setHeader('Set-Cookie', 'last_access=' + now + ';expires=Mon, 07 Jan 2036 00:00:00 GMT;');
+  
   //Cookieが存在していたら（取得できたら）、ミリ秒を表す文字列を抜き出し、数値に変換して代入（Cookieがなければnowを代入）
   const last_access_time = req.headers.cookie ? parseInt(req.headers.cookie.split('last_access=')[1]) : now;
 
